@@ -15,9 +15,9 @@ const questions = [{
     validate: nameInput => {
         if (nameInput) {
             return true;
-         } else {
-        console.log('enter repo title.');
-        return false;
+        } else {
+            console.log('enter repo title.');
+            return false;
         }
     }
 },
@@ -34,13 +34,13 @@ const questions = [{
             return false;
         }
     }
-    },
+},
 //instalation confirmation 
 {
     type: 'confirm',
     name: 'confirmInstallation',
     message: 'Is there an installation process?'
-    },
+},
 {
     type: 'input',
     name: 'Instalation',
@@ -94,8 +94,8 @@ const questions = [{
     type: 'checkbox',
     name: 'licenses',
     message: 'chose a license, you can also choose none and add one later.',
-    choices: ['none', 'GNU AGPLv3', 'MIT', 'ISC', 'GNU GPL v2', 
-    'Apache License 2.0', 'Mozilla Public License 2.0', 'The Unlicense']
+    choices: ['none', 'GNU AGPLv3', 'MIT', 'ISC', 'GNU GPL v2',
+        'Apache License 2.0', 'Mozilla Public License 2.0', 'The Unlicense']
 },
 
 {
@@ -117,15 +117,15 @@ const questions = [{
     name: 'email',
     message: 'Enter email address  (Requiered)',
     validate: nameInput => {
-       if (nameInput) {
+        if (nameInput) {
             return true;
         } else {
             console.log('Please enter a valid email.');
             return false;
         }
     }
-    
-    
+
+
 }];
 
 // TODO: Create a function to write README file
@@ -144,11 +144,47 @@ const writeFile = fileContent => {
     });
 };
 
+function readMeTemplate(userInput) {
+    return `
+    # ${userInput.title}
+
+## Description 
+${userInput.description}
+
+* [Installation](#installation)
+* [Usage](#usage)
+* [Credits](#credits)
+* [License](#license)
+
+
+## Installation
+${userInput.Installation}
+## Usage 
+${userInput.Usage}
+## Credits
+${userInput.Credits}
+## License
+${userInput.License}
+## Badges
+${userInput.Badges}
+## Features
+${userInput.Features}
+## Contributing
+${userInput.Contributing}
+## Tests
+${userInput.Tests}
+    `
+}
+
 // TODO: Create a function to initialize app
 async function init() {
     try {
         const userAnswers = await inquirer.prompt(questions);
-        console.log('datta is being processed into README.MD:', userAnswers);
+
+        let readMeFile = readMeTemplate(userAnswers);
+
+        await writeFile(readMeFile)
+        // console.log('datta is being processed into README.MD:', resolved);
     } catch (error) {
         console.log(error);
     }
